@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the number game</title>
+
+    <style> 
+    @import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Dancing+Script:wght@700&display=swap');
+
+    html{
+        font-family: 'Bungee Spice', cursive;
+    }
+    body{
+       width: 100%;
+       max-width: 900px;
+       min-width: 600px;
+       margin: 0 auto;
+       background-color: black;
+    }
+
+    h1{
+        font-size:50px;
+    }
+    
+    </style>
+</head>
+<body>
+    <h1>Guess the number and win a funny gif</h1>
+    <p>We will think in a random number between 1 and 100 and your job will be
+       trying to guess it. I give you my word that if you guessed it right you will be rewarded.
+    </p>
+
+    <div class ="form">
+        <label>Try your luck:</label>
+        <input type="text" id="guessField" class="guessField">
+        <input type="submit" value="Submit your luck" class="guessSubmit">
+    </div>
+
+    <div class="resultParas">
+        <p class="guesses"></p>
+        <p class="lastResult"></p>
+        <p class="lowOrHi"></p>
+      </div>
+
+</body>
+<script>
+    // +1 pois queremos de 1 a 100
+    let randomNumber = Math.floor(Math.random() * 100) + 1; 
+    console.log(randomNumber);
+
+    const guesses = document.querySelector('.guesses');
+  const lastResult = document.querySelector('.lastResult');
+  const lowOrHi = document.querySelector('.lowOrHi');
+  const guessSubmit = document.querySelector('.guessSubmit');
+  const guessField = document.querySelector('.guessField');
+
+    let guessCount = 1;
+    let resetButton;
+
+    //arrow function
+    const checkGuess = () => {
+
+         const userGuess= Number(guessField.value);
+
+      //"inicializar" o 'p' das previous guesses   
+      if(guessCount === 1){
+        guesses.textContent = 'Previous guesses: ';
+      }else{
+        guesses.textContent += userGuess + ' ';
+            }
+    (userGuess === randomNumber) ? (lastResult.textContent = 'Good Job' ,
+     lastResult.style.backgroundColor = 'green' ,
+     lowOrHi.textContent = '' ,setGameOver())
+      : (guessCount === 10) ? (lastResult.textContent = '!!!GAME OVER!!!', setGameOver()) 
+      : (lastResult.textContent = 'Wrong!' , 
+      lastResult.style.backgroundColor = 'red', 
+      (userGuess < randomNumber) ? ((randomNumber -userGuess)<=30)?lowOrHi.textContent = 'Last guess was low!' 
+      :lowOrHi.textContent = 'Last guess was too low!'
+      : ((userGuess-randomNumber >= 30))? lowOrHi.textContent = 'Last guess was too high!' : 
+      lowOrHi.textContent = 'Last guess was high!');
+
+      guessCount++;
+      guessField.value ='';
+      guessField.focus();
+    }
+
+    guessSubmit.addEventListener('click', checkGuess);
+
+    const setGameOver = () => {
+        guessField.disabled = true;
+        guessSubmit.disabled = true;
+        resetButton = document.createElement('button');
+        resetButton.textContent = 'Start new game';
+        document.body.appendChild(resetButton);
+        resetButton.addEventListener('click', resetGame);
+    }
+
+    const resetGame = () => {
+        guessCount = 1;
+        const resetParas = document.querySelectorAll('.resultParas p');
+        // dou o nome de 'resetPara' a cada elemento p da div resultParas e dou lhes textContent ''
+        for(const resetPara of resetParas){
+            resetPara.textContent = '';
+        }
+        // quando dou reset ao jogo não faz sentido este botão estar logo presente
+        // entao vou ao parentNode e removo-o
+        resetButton.parentNode.removeChild(resetButton);
+        // e dou novamente a possibilidade de submetter dados e etc...
+      guessField.disabled = false;
+	  guessSubmit.disabled = false;
+	  guessField.value = '';
+	  guessField.focus();
+
+      lastResult.style.backgroundColor = 'white';
+      randomNumber = Math.floor(Math.random() * 100) + 1; 
+      console.log(randomNumber);
+    }
+
+</script>
+</html>
