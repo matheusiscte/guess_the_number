@@ -13,7 +13,7 @@
         font-family: 'Bungee Spice', cursive;
     }
     body{
-       width: 100%;
+       width: 50%;
        max-width: 900px;
        min-width: 600px;
        margin: 0 auto;
@@ -67,9 +67,9 @@
       //"inicializar" o 'p' das previous guesses   
       if(guessCount === 1){
         guesses.textContent = 'Previous guesses: ';
-      }else{
+      }
         guesses.textContent += userGuess + ' ';
-            }
+            
     (userGuess === randomNumber) ? (lastResult.textContent = 'Good Job' ,
      lastResult.style.backgroundColor = 'green' ,
      lowOrHi.textContent = '' ,setGameOver())
