@@ -7,21 +7,35 @@
     <title>Guess the number game</title>
 
     <style> 
-    @import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Dancing+Script:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
     html{
-        font-family: 'Bungee Spice', cursive;
+      font-family: 'Press Start 2P', cursive;
     }
     body{
        width: 50%;
        max-width: 900px;
        min-width: 600px;
        margin: 0 auto;
-       background-color: black;
+       background-color: rgb(0, 0, 0);
+       color: white;
     }
 
     h1{
         font-size:50px;
+    }
+
+    .lastResult{
+      display: flex;
+      justify-content: center;
+    }
+
+    img{
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+      width: 250px;
+      height: 250px;
     }
     
     </style>
@@ -34,8 +48,8 @@
 
     <div class ="form">
         <label>Try your luck:</label>
-        <input type="text" id="guessField" class="guessField">
-        <input type="submit" value="Submit your luck" class="guessSubmit">
+        <input type="text" id="guessField" class="guessField" autocomplete="off">
+        <input type="submit" value="Submit your luck" class="guessSubmit" autocomplete="off">
     </div>
 
     <div class="resultParas">
@@ -44,17 +58,23 @@
         <p class="lowOrHi"></p>
       </div>
 
+      <img src="the-office.gif" class="party"></img>
+
 </body>
 <script>
     // +1 pois queremos de 1 a 100
     let randomNumber = Math.floor(Math.random() * 100) + 1; 
     console.log(randomNumber);
 
-    const guesses = document.querySelector('.guesses');
+  const guesses = document.querySelector('.guesses');
   const lastResult = document.querySelector('.lastResult');
   const lowOrHi = document.querySelector('.lowOrHi');
   const guessSubmit = document.querySelector('.guessSubmit');
   const guessField = document.querySelector('.guessField');
+
+  var image = document.querySelector('.party');
+  image.style.opacity="0";
+  
 
     let guessCount = 1;
     let resetButton;
@@ -72,6 +92,7 @@
             
     (userGuess === randomNumber) ? (lastResult.textContent = 'Good Job' ,
      lastResult.style.backgroundColor = 'green' ,
+     image.style.opacity="1",
      lowOrHi.textContent = '' ,setGameOver())
       : (guessCount === 10) ? (lastResult.textContent = '!!!GAME OVER!!!', setGameOver()) 
       : (lastResult.textContent = 'Wrong!' , 
@@ -99,6 +120,7 @@
 
     const resetGame = () => {
         guessCount = 1;
+        image.style.opacity="0";
         const resetParas = document.querySelectorAll('.resultParas p');
         // dou o nome de 'resetPara' a cada elemento p da div resultParas e dou lhes textContent ''
         for(const resetPara of resetParas){
